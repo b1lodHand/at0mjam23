@@ -402,7 +402,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_rb: {fileID: 339805599}
   m_groundCheck: {fileID: 383676279}
-  m_moveSpeed: 350
+  m_moveSpeedGrounded: 600
+  m_moveSpeedInAir: 350
+  m_groundedDrag: 10
+  m_inAirDrag: 4
+  m_ascendingGravityScale: 5
+  m_descendingGravityScale: 16
+  m_groundedGravityScale: 0.01
+  m_maxJumpButtonHold: 0.15
+  m_jumpHeight: 15
+  m_maxJumps: 1
 --- !u!50 &339805599
 Rigidbody2D:
   serializedVersion: 4
@@ -416,10 +425,10 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 10
+  m_LinearDrag: 4
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 5355e75cdd0f6cb45b1cefc27129449a, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -619,7 +628,7 @@ MonoBehaviour:
   m_layerMask:
     serializedVersion: 2
     m_Bits: 64
-  m_radius: 0.3
+  m_radius: 0.05
   m_check: 0
 --- !u!1 &760745735
 GameObject:
