@@ -15,6 +15,9 @@ public class VisionCone : MonoBehaviour
     [Space]
     [SerializeField] private List<Transform> m_visibleTargets = new List<Transform>();
 
+    // Private.
+    private bool m_active = true;
+
     // Properties.
     public float ViewRadius => m_viewRadius;
     public float ViewAngle => m_viewAngle;
@@ -28,6 +31,8 @@ public class VisionCone : MonoBehaviour
 
     void CastRays()
     {
+        if(!m_active) return;
+
         m_visibleTargets.Clear();
         float stepAngle = ViewAngle / m_countOfRays;
 
@@ -55,6 +60,15 @@ public class VisionCone : MonoBehaviour
         return new Vector3(-Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad), 0f);
     }
 
-    public void Enable() => this.enabled = true;
-    public void Disable() => this.enabled = false;
+    public void Activate()
+    {
+        m_visibleTargets.Clear();
+        m_active = true;
+    }
+
+    public void Deactivate()
+    {
+        m_visibleTargets.Clear();
+        m_active = false;
+    }
 }

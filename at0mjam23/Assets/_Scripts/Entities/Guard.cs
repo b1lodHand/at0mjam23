@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Guard : MonoBehaviour, IBreakable
@@ -30,6 +31,19 @@ public class Guard : MonoBehaviour, IBreakable
         });
     }
 
+    void Search()
+    {
+        if (m_visionCone.VisibleTargets.Count == 0) return;
+
+        var containsPlayer = m_visionCone.VisibleTargets.Any(t => t.TryGetComponent(out Player _));
+        if (containsPlayer) Debug.Log("ded");
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.TryGetComponent(out PlayerCollisionHandler player)) Debug.Log("ded");
+    }
+
     public bool IsBroken() => m_isBroken;
 
     public bool Break(float duration)
@@ -37,7 +51,7 @@ public class Guard : MonoBehaviour, IBreakable
         if(IsBroken()) return false;
 
         m_isBroken = true;
-        m_patrol.Pause();
+        if(m_patrol != null) m_patrol.Pause();
         m_animator.CrossFade(Anim_Break, 0.2f, 0);
         Invoke("Recover", duration);
         return true;
@@ -50,7 +64,7 @@ public class Guard : MonoBehaviour, IBreakable
         {
             m_animator.enabled = true;
             m_animator.CrossFade(Anim_Recover, 0.2f, 0);
-            m_patrol.Resume();
+            if (m_patrol != null) m_patrol.Resume();
         });
     }
 

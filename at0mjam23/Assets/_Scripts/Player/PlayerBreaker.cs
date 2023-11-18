@@ -6,19 +6,28 @@ using UnityEngine;
 public class PlayerBreaker : MonoBehaviour
 {
     // Fields.
-    [SerializeField] private OverlapCircleCheckerObstacleSensitive m_check;
+    [SerializeField] private LayerMask m_targetMask;
+    [SerializeField] private LayerMask m_obstacleMask;
+    [SerializeField] private BreakerBullet m_bulletPrefab;
+    [SerializeField] private Texture2D m_crosshair;
     [SerializeField] private float m_breakDuration;
-    [SerializeField] private List<IBreakable> m_foundBreakables = new List<IBreakable>();
+    [SerializeField] private float m_bulletSpeed;
 
     // Private.
     private IBreakable m_lastBreakable;
+    private bool m_active = false;
 
     // Properties.
-    private bool CanBreak => m_lastBreakable == null || !m_lastBreakable.IsBroken();
+    private bool CanBreak => m_active && (m_lastBreakable == null || !m_lastBreakable.IsBroken());
+    public bool Active => m_active;
+
+    private void Start()
+    {
+        Deactivate();
+    }
 
     private void Update()
     {
-        SearchForBreakables();
         GetInput();
     }
 
@@ -26,22 +35,30 @@ public class PlayerBreaker : MonoBehaviour
     {
         if (!CanBreak) return;
 
-        if (Input.GetKeyDown(KeyCode.F) && m_foundBreakables.Count > 0)
+        if(Input.GetKeyDown(KeyCode.Mouse0))
         {
-            var target = m_foundBreakables.FirstOrDefault();
-            if (!target.Break(m_breakDuration)) return;
+            var mousePosition = GameManager.Instance.ActiveCamera.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition.z = 0f;
 
-            m_lastBreakable = target;
+            var bullet = Instantiate(m_bulletPrefab, transform.position, Quaternion.identity);
+            bullet.Init(this, m_breakDuration, (mousePosition - transform.position).normalized * m_bulletSpeed);
         }
     }
 
-    void SearchForBreakables()
+    public void BreakCallback(IBreakable breakableHit)
     {
-        m_foundBreakables.Clear();
-        m_check.Result.ForEach(t =>
-        {
-            if (!t.TryGetComponent(out IBreakable breakable)) return;
-            m_foundBreakables.Add(breakable);
-        });
+        m_lastBreakable = breakableHit;
+    }
+
+    public void Activate()
+    {
+        m_active = true;
+        Cursor.SetCursor(m_crosshair, Vector2.one / 2, CursorMode.Auto);
+    }
+
+    public void Deactivate()
+    {
+        m_active = false;
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 }

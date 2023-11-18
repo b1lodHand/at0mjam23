@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8985295737103593168}
   - component: {fileID: 8350874412512697428}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,9 +92,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2071559554856821208}
   - component: {fileID: 7153514878913970726}
-  - component: {fileID: 6182224153626492621}
-  - component: {fileID: 2301348424097875954}
-  m_Layer: 0
+  - component: {fileID: 3872983398481655063}
+  - component: {fileID: 1703185404855760534}
+  m_Layer: 11
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +168,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &6182224153626492621
+--- !u!58 &3872983398481655063
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -203,7 +203,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.3
---- !u!50 &2301348424097875954
+--- !u!50 &1703185404855760534
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -226,10 +226,10 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 5
+  m_Constraints: 4
 --- !u!1 &6217369817061793770
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,9 +241,9 @@ GameObject:
   - component: {fileID: 8757999902625027639}
   - component: {fileID: 6936422262752905185}
   - component: {fileID: 4291333645209626398}
-  - component: {fileID: 1953077160533116806}
   - component: {fileID: 5127126906236105035}
   - component: {fileID: 1841917675717533202}
+  - component: {fileID: 558872292894814025}
   m_Layer: 8
   m_Name: Guard
   m_TagString: Untagged
@@ -286,6 +286,7 @@ MonoBehaviour:
   m_spots: []
   m_moveSpeed: 35
   m_reverseOnEnd: 1
+  m_stopWhileWaiting: 0
 --- !u!50 &4291333645209626398
 Rigidbody2D:
   serializedVersion: 4
@@ -313,41 +314,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!58 &1953077160533116806
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6217369817061793770}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.41
 --- !u!95 &5127126906236105035
 Animator:
   serializedVersion: 5
@@ -385,6 +351,41 @@ MonoBehaviour:
   m_animator: {fileID: 5127126906236105035}
   m_body: {fileID: 2071559554856821208}
   m_isBroken: 0
+--- !u!58 &558872292894814025
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6217369817061793770}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.3
 --- !u!1 &8672861672115431359
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,7 +396,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1037453343689566335}
   - component: {fileID: 6656452942267435778}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: VisionCone
   m_TagString: Untagged
   m_Icon: {fileID: 0}

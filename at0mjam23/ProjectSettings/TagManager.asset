@@ -13,10 +13,10 @@ TagManager:
   - UI
   - Ground
   - Interactable
-  - Hostile/Breakable
-  - Hostile/Unbreakable
-  - 
-  - 
+  - Guard
+  - Observer
+  - Bullet
+  - GuardBody
   - 
   - 
   - 
