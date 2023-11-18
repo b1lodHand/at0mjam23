@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,12 +6,33 @@ using UnityEngine;
 public class SignalGenerator : MonoBehaviour
 {
     // Fields.
-    [SerializeField] private List<SignalListener> m_listeners = new List<SignalListener>();
+    [SerializeField] private bool m_currentState = true;
 
-    public void GenerateSignal(IActivator source)
+    // Private.
+    private SignalGate m_controller;
+
+    // Properties.
+    public Action OnSignalChanged;
+    public bool SignalState => m_currentState;
+
+    private void Start()
     {
-        if (source == null) return;
-        if (m_listeners.Count == 0) return;
-        m_listeners.ForEach(l => l.GetSignal(this));
+        if (m_controller == null) this.enabled = false;
+    }
+
+    public void SetSignal(bool newState)
+    {
+        if(m_currentState == newState) return;
+        NegateSignal();
+    }
+
+    public void NegateSignal()
+    {
+        m_currentState = !m_currentState;
+        OnSignalChanged?.Invoke();
+    }
+    public void SetController(SignalGate controller)
+    {
+        m_controller = controller;
     }
 }

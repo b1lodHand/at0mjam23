@@ -20,13 +20,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float m_groundedGravityScale;
     [SerializeField] private float m_maxJumpButtonHold = .3f;
     [SerializeField] private float m_jumpHeight;
-    [SerializeField] private int m_maxJumps = 1;
+    //[SerializeField] private int m_maxJumps = 1;
 
     // Private.
     // movement:
     float m_moveInput;
     float m_jumpButtonHold = 0f;
-    int m_currentJumps = 0;
+    //int m_currentJumps = 0;
     bool m_isGroundedLastFrame;
     bool m_isGrounded;
     bool m_jumpButtonPressed;
@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
         m_isGroundedLastFrame = m_isGrounded;
         m_isGrounded = m_groundCheck.Result;
 
-        if (m_isGrounded) m_currentJumps = m_maxJumps;
+        //if (m_isGrounded) m_currentJumps = m_maxJumps;
         m_rb.drag = m_isGrounded ? m_groundedDrag : m_inAirDrag;
         if (!m_isGrounded) m_rb.gravityScale = m_rb.velocity.y < 0 ? m_descendingGravityScale : m_ascendingGravityScale;
         else m_rb.gravityScale = m_groundedGravityScale;
@@ -57,11 +57,11 @@ public class PlayerMovement : MonoBehaviour
     {
         m_moveInput = Input.GetAxisRaw("Horizontal");
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space) && m_isGrounded)
         {
             m_jumpButtonPressed = true;
             m_jumpButtonHold = 0f;
-            m_currentJumps--;
+            //m_currentJumps--;
         }
         else if (Input.GetKeyUp(KeyCode.Space)) m_jumpButtonPressed = false;
     }

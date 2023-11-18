@@ -96,7 +96,7 @@ public class Patrol : MonoBehaviour
 
     public void Deactivate() => m_state = PatrolState.NotActive;
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         if (m_spots.Count <= 0) return;
         
