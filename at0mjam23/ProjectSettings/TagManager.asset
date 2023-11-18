@@ -13,8 +13,8 @@ TagManager:
   - UI
   - Ground
   - Interactable
-  - 
-  - 
+  - Hostile/Breakable
+  - Hostile/Unbreakable
   - 
   - 
   - 
@@ -46,4 +46,7 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 3947585111
+    locked: 0
+  - name: VFX
+    uniqueID: 1005338377
     locked: 0

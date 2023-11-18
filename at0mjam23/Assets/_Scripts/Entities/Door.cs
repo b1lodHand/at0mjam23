@@ -17,7 +17,9 @@ public class Door : MonoBehaviour
 
     private void Awake()
     {
-        m_listener.OnSignalChanged += Switch;
+        m_listener.OnPositiveSignalReceived += Open;
+        m_listener.OnNegativeSignalReceived += Close;
+        if (m_open) Open();
     }
 
     private void Switch()

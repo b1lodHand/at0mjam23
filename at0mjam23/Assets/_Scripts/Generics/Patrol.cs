@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Patrol : MonoBehaviour
+public class Patrol : MonoBehaviour, IPatrol
 {
     // Fields.
     [SerializeField] private Rigidbody2D m_rb;
@@ -12,15 +12,20 @@ public class Patrol : MonoBehaviour
     [SerializeField] private List<Spot> m_spots = new List<Spot>();
     [SerializeField] private float m_moveSpeed = 10f;
     [SerializeField] private bool m_reverseOnEnd = true;
+    [SerializeField] private bool m_stopWhileWaiting = false;
 
     // Private.
     private float m_currentTimeWaited = 0f;
     private float m_currentSpotDuration = 0f;
     private float m_distaneToNextSpot = 0f;
     private Vector2 m_moveDirection;
-    private Spot m_lastOrCurrentSpot = null;
     private Spot m_nextSpot = null;
     private int m_currentSpotIndex = -1;
+    private bool m_paused = false;
+    private PatrolState m_stateBeforePause;
+
+    // Properties.
+    public event Action OnWaitingEnds;
 
     private void Start()
     {
@@ -49,13 +54,19 @@ public class Patrol : MonoBehaviour
     private void Wait()
     {
         if (m_currentTimeWaited < m_currentSpotDuration) m_currentTimeWaited += Time.deltaTime;
-        else StartMoving();
+        else
+        {
+            OnWaitingEnds?.Invoke();
+            StartMoving();
+        }
     }
 
     private void Move()
     {
+        if (m_paused) return;
+
         m_distaneToNextSpot = Vector2.Distance(m_nextSpot.SpotPosition.position, transform.position);
-        if (m_distaneToNextSpot <= .5f) { StartWaiting(); return; }
+        if (m_distaneToNextSpot <= .1f) { StartWaiting(); return; }
 
         var speedMultiplier = 10f;
         m_rb.velocity = m_moveDirection * m_moveSpeed * speedMultiplier * Time.deltaTime;
@@ -63,7 +74,10 @@ public class Patrol : MonoBehaviour
 
     private void StartWaiting()
     {
-        if(m_nextSpot.SpotDuration <= 0f) { StartMoving(); return; }
+        if(m_paused) return;
+        if(m_stopWhileWaiting) m_rb.velocity = Vector3.zero;
+
+        if (m_nextSpot.SpotDuration <= 0f) { StartMoving(); return; }
 
         m_currentSpotDuration = m_nextSpot.SpotDuration;
         m_currentTimeWaited = 0f;
@@ -73,9 +87,6 @@ public class Patrol : MonoBehaviour
 
     private void StartMoving()
     {
-        if (m_currentSpotIndex != -1) m_lastOrCurrentSpot = m_spots[m_currentSpotIndex];
-        else m_lastOrCurrentSpot = null;
-
         m_currentSpotIndex++;
 
         if (m_currentSpotIndex >= m_spots.Count)
@@ -95,6 +106,14 @@ public class Patrol : MonoBehaviour
     }
 
     public void Deactivate() => m_state = PatrolState.NotActive;
+    public void Activate() => StartMoving();
+
+    public PatrolState GetState() => m_state;
+
+    public void AppendOnWaitingEnds(Action actionWillBeAppended)
+    {
+        OnWaitingEnds += actionWillBeAppended;
+    }
 
     private void OnDrawGizmos()
     {
@@ -109,6 +128,17 @@ public class Patrol : MonoBehaviour
         }
     }
 
+    public void Pause()
+    {
+        m_paused = true;
+        m_stateBeforePause = m_state;
+    }
+
+    public void Resume()
+    {
+        m_paused = false;
+        m_state = m_stateBeforePause;
+    }
 }
 
 [System.Serializable]

@@ -30,14 +30,17 @@ public class PlayerMovement : MonoBehaviour
     bool m_isGroundedLastFrame;
     bool m_isGrounded;
     bool m_jumpButtonPressed;
+    bool m_hasContactWithMovingGround;
 
     // Properties.
     private float m_moveSpeed => m_isGrounded ? m_moveSpeedGrounded : m_moveSpeedInAir;
+    private bool m_isOnMovingGround => m_isGrounded && m_hasContactWithMovingGround;
+    private bool m_anyInput => m_moveInput != 0f || m_jumpButtonPressed;
 
     private void Update()
     {
         m_isGroundedLastFrame = m_isGrounded;
-        m_isGrounded = m_groundCheck.Result;
+        m_isGrounded = m_groundCheck.FoundAny;
 
         //if (m_isGrounded) m_currentJumps = m_maxJumps;
         m_rb.drag = m_isGrounded ? m_groundedDrag : m_inAirDrag;

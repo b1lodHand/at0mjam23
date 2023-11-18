@@ -23,7 +23,6 @@ public class VisionCone : MonoBehaviour
 
     private void Update()
     {
-        //FindTargets();
         CastRays();
     }
 
@@ -38,7 +37,7 @@ public class VisionCone : MonoBehaviour
             var direction = GetDirectionFromAngle(angle, true);
 
             var target = Physics2D.Raycast(transform.position, direction, m_viewRadius, m_targetMask);
-            if (target.transform == null) continue;
+            if (target.transform == null || target.transform == transform) continue;
 
             var directionToContactPoint = (target.point - new Vector2(transform.position.x, transform.position.y)).normalized;
             if (Physics2D.Raycast(transform.position, directionToContactPoint, target.distance, m_obstacleMask)) continue;
@@ -55,4 +54,7 @@ public class VisionCone : MonoBehaviour
         if (!angleIsGlobal) angleInDegrees += transform.eulerAngles.z;
         return new Vector3(-Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad), 0f);
     }
+
+    public void Enable() => this.enabled = true;
+    public void Disable() => this.enabled = false;
 }
