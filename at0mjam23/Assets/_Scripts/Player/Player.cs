@@ -28,6 +28,7 @@ public class Player : MonoBehaviour, IActivator
         else if (IsHidden && HideDelayCompleted)
         {
             if (m_movement.AnyInput) Unhide();
+            else transform.position = m_hiddenInside.HidePosition.position;
         }
     }
 
@@ -44,6 +45,7 @@ public class Player : MonoBehaviour, IActivator
 
         m_isHidden = true;
         m_hiddenInside = hiddenInside;
+        m_hiddenInside.Close();
         transform.position = m_hiddenInside.HidePosition.position;
         m_rb.isKinematic = true;
         m_rb.simulated = false;
@@ -60,10 +62,13 @@ public class Player : MonoBehaviour, IActivator
 
         m_isHidden = false;
         transform.position = m_hiddenInside.HidePosition.position;
+        m_hiddenInside.Open();
         m_hiddenInside = null;
         m_rb.isKinematic = false;
         m_rb.simulated = true;
         m_graphic.SetActive(true);
         m_collision.SetActive(true);
     }
+
+    public bool IsActive() => true;
 }

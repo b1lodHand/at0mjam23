@@ -8,6 +8,7 @@ public class PlayerBreaker : MonoBehaviour
     // Fields.
     [SerializeField] private BreakerBullet m_bulletPrefab;
     [SerializeField] private Texture2D m_crosshair;
+    [SerializeField] private AudioClip m_shootClip;
     [SerializeField] private float m_breakDuration;
     [SerializeField] private float m_bulletSpeed;
 
@@ -46,6 +47,7 @@ public class PlayerBreaker : MonoBehaviour
 
             var bullet = Instantiate(m_bulletPrefab, transform.position, Quaternion.identity);
             bullet.Init(this, m_breakDuration, (mousePosition - transform.position).normalized * m_bulletSpeed);
+            AudioSource.PlayClipAtPoint(m_shootClip, transform.position, .5f);
         }
     }
 

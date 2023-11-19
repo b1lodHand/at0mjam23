@@ -20,6 +20,7 @@ public class Patrol : MonoBehaviour, IPatrol
     [SerializeField] private float m_moveSpeed = 10f;
     [SerializeField] private bool m_reverseOnEnd = true;
     [SerializeField] private bool m_stopWhileWaiting = true;
+    [SerializeField] private bool m_playOnAwake = true;
 
     // Private.
     private float m_currentTimeWaited = 0f;
@@ -36,7 +37,7 @@ public class Patrol : MonoBehaviour, IPatrol
 
     private void Start()
     {
-        if (m_spots.Count <= 0) { Deactivate(); return; }
+        if (m_spots.Count <= 0 || !m_playOnAwake) { Deactivate(); return; }
         StartMoving();
     }
 
@@ -142,6 +143,12 @@ public class Patrol : MonoBehaviour, IPatrol
 
     public void Resume()
     {
+        if (!m_paused && m_state == PatrolState.NotActive)
+        {
+            StartMoving();
+            return;
+        }
+
         m_paused = false;
         m_state = m_stateBeforePause;
     }

@@ -16,4 +16,5 @@ public class GuardCollisionHandler : MonoBehaviour, IBreakable, IActivator
     public bool IsBroken() => m_guardScript.IsBroken();
 
     public void Recover() => m_guardScript.Recover();
+    public bool IsActive() => m_guardScript.IsBroken();
 }

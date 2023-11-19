@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1794721412991626642}
-  - component: {fileID: 4342675463483792428}
+  - component: {fileID: 1565652447233678966}
   m_Layer: 13
   m_Name: GuardChecker
   m_TagString: Untagged
@@ -63,7 +63,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 585317439582897307}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4342675463483792428
+--- !u!114 &1565652447233678966
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -72,13 +72,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1112106135793462730}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee4ba62a55582964e81f362f0f89c8e6, type: 3}
+  m_Script: {fileID: 11500000, guid: eda3f9a8250859e479cc9304fc038448, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_layerMask:
+  m_targetMask:
     serializedVersion: 2
     m_Bits: 256
-  m_radius: 25
+  m_obstacleMask:
+    serializedVersion: 2
+    m_Bits: 64
+  m_checkRadius: 25
   m_result: []
 --- !u!1 &1595940202156051056
 GameObject:
@@ -153,8 +156,8 @@ SpriteRenderer:
   m_SortingLayerID: 1734347255
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 0.8588236, g: 0.454902, b: 0.28627452, a: 1}
+  m_Sprite: {fileID: -557029039, guid: 2cd9ea20f5e85a248a91b6580d456518, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -193,7 +196,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.3375, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2884572313457652495}
@@ -227,7 +230,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &7606101743633925706
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -260,7 +263,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.020833671, y: 0.006944537}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -271,7 +274,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.8402923, y: 0.6319381}
   m_EdgeRadius: 0
 --- !u!114 &4953268510766247954
 MonoBehaviour:
@@ -288,4 +291,5 @@ MonoBehaviour:
   m_pickupPrefab: {fileID: 3235156077095903778, guid: 2e88886667cb19f41a626ef2ccb554e5, type: 3}
   m_pickupSpawnPosition: {fileID: 3221855917840893993}
   m_distractionDuration: 5
-  m_guardCheck: {fileID: 4342675463483792428}
+  m_guardCheck: {fileID: 1565652447233678966}
+  m_collisionClip: {fileID: 8300000, guid: 93857bd003ebdff46912250b759894ed, type: 3}

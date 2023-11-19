@@ -8,7 +8,8 @@ public class DistractorBehaviour : MonoBehaviour
     [SerializeField] private DistractorPickup m_pickupPrefab;
     [SerializeField] private Transform m_pickupSpawnPosition;
     [SerializeField] private float m_distractionDuration;
-    [SerializeField] private OverlapCircleCheck m_guardCheck;
+    [SerializeField] private OverlapCircleCheckerObstacleSensitive m_guardCheck;
+    [SerializeField] private AudioClip m_collisionClip;
 
     private void Start()
     {
@@ -34,5 +35,10 @@ public class DistractorBehaviour : MonoBehaviour
     {
         Instantiate(m_pickupPrefab, m_pickupSpawnPosition.position, Quaternion.identity);
         Destroy(gameObject);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        AudioSource.PlayClipAtPoint(m_collisionClip, transform.position, .5f);
     }
 }

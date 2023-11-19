@@ -6,6 +6,9 @@ public class CardboardBox : MonoBehaviour, IInteractable
 {
     // Fields.
     [SerializeField] private Transform m_hidePosition;
+    [SerializeField] private SpriteRenderer m_renderer;
+    [SerializeField] private Sprite m_open, m_close;
+    [SerializeField] private AudioClip m_openClip;
 
     // Properties.
     public Transform HidePosition => m_hidePosition;
@@ -17,5 +20,17 @@ public class CardboardBox : MonoBehaviour, IInteractable
         {
             player.Hide(this);
         }
+    }
+
+    public void Open()
+    {
+        m_renderer.sprite = m_open;
+        AudioSource.PlayClipAtPoint(m_openClip, transform.position, .5f);
+    }
+
+    public void Close()
+    {
+        m_renderer.sprite = m_close;
+        AudioSource.PlayClipAtPoint(m_openClip, transform.position, .5f);
     }
 }

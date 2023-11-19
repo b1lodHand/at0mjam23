@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8519564666560806053}
   - component: {fileID: 7915211595878488989}
   - component: {fileID: 3235156077095903778}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DistractorPickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,8 +32,7 @@ Transform:
   m_LocalScale: {x: 3.76013, y: 3.76013, z: 3.76013}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8572932039700672203}
-  - {fileID: 6892796924873168451}
+  - {fileID: 3051278157528226238}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &8519564666560806053
@@ -89,7 +88,7 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.013644185, y: 0.0016296569}
+  m_Offset: {x: 0.02, y: 0.015}
   serializedVersion: 2
   m_Radius: 0.12909184
 --- !u!114 &3235156077095903778
@@ -114,7 +113,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6892796924873168451}
   - component: {fileID: 4955197694373418783}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,10 +130,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.0193, y: 0.0045, z: 0}
-  m_LocalScale: {x: 0.2045, y: 0.2045, z: 0.2045}
+  m_LocalScale: {x: 0.20450002, y: 0.20450002, z: 0.2045}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2852925660068455753}
+  m_Father: {fileID: 3051278157528226238}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4955197694373418783
 MonoBehaviour:
@@ -186,6 +185,39 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!1 &6846766002515576362
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3051278157528226238}
+  m_Layer: 7
+  m_Name: Pivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3051278157528226238
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6846766002515576362}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: 0.20938551, w: 0.97783315}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8572932039700672203}
+  - {fileID: 6892796924873168451}
+  m_Father: {fileID: 2852925660068455753}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 24.173}
 --- !u!1 &7931139438874624032
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,7 +228,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8572932039700672203}
   - component: {fileID: 3103434565459656585}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -211,13 +243,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7931139438874624032}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.17400312, w: 0.98474514}
+  m_LocalRotation: {x: -0, y: -0, z: -0.9429364, w: 0.332973}
   m_LocalPosition: {x: 0.0193, y: 0.007, z: 0}
-  m_LocalScale: {x: 0.027728, y: 0.027728, z: 0.027728}
+  m_LocalScale: {x: 0.09341008, y: 0.09341008, z: 0.0934101}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2852925660068455753}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 20.041}
+  m_Father: {fileID: 3051278157528226238}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -141.101}
 --- !u!212 &3103434565459656585
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -259,7 +291,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 707646b067694df478c7470b96ee5476, type: 3}
+  m_Sprite: {fileID: -793463980, guid: 2cd9ea20f5e85a248a91b6580d456518, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

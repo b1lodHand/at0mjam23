@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6939714439283722075}
@@ -76,6 +76,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_hidePosition: {fileID: 7655329345209874104}
+  m_renderer: {fileID: 7410518880272074176}
+  m_open: {fileID: -685877683, guid: 3ccd77b04e10030488a495fba583069a, type: 3}
+  m_close: {fileID: -1058380759, guid: 3ccd77b04e10030488a495fba583069a, type: 3}
+  m_openClip: {fileID: 8300000, guid: 876b22052354cbb45984794d98ab5857, type: 3}
 --- !u!61 &3597410072232910846
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -178,8 +182,8 @@ Transform:
   m_GameObject: {fileID: 4711182392037736939}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -0.266, z: 0}
+  m_LocalScale: {x: 0.11960647, y: 0.11960647, z: 0.11960647}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9119714839559461212}
@@ -225,7 +229,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  m_Sprite: {fileID: -685877683, guid: 3ccd77b04e10030488a495fba583069a, type: 3}
   m_Color: {r: 0.5294118, g: 0.39215687, b: 0.3764706, a: 1}
   m_FlipX: 0
   m_FlipY: 0

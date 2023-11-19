@@ -16,15 +16,19 @@ public class Guard : MonoBehaviour, IBreakable
     [SerializeField] private OverlapCircleCheckerObstacleSensitive m_nearCheck;
     [SerializeField] private Animator m_animator;
     [SerializeField] private Transform m_body;
+    [SerializeField] private GameObject m_stunEffect;
     [SerializeField] private float m_distractedSpeed;
     [SerializeField] private bool m_isBroken = false;
     [SerializeField] private bool m_isDistracted = false;
+    [SerializeField] private bool m_isFacingRight = false;
+
+    [SerializeField] private AudioClip m_breakClip;
+    [SerializeField] private AudioClip m_recoverClip;
 
     // Private.
     private IPatrol m_patrol;
     private Vector3 m_lastBodyPosition;
     private DistractorBehaviour m_distractor;
-    private bool m_isFacingRight = false;
 
     private void Start()
     {
@@ -70,7 +74,7 @@ public class Guard : MonoBehaviour, IBreakable
             return true;
         });
 
-        if (containsPlayer) Debug.Log("ded");
+        if (containsPlayer) GameManager.Instance.KillPlayer();
     }
 
     void CheckNear()
@@ -85,7 +89,7 @@ public class Guard : MonoBehaviour, IBreakable
             return true;
         });
 
-        if (playerIsNear) Debug.Log("ded");
+        if (playerIsNear) GameManager.Instance.KillPlayer();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -102,6 +106,8 @@ public class Guard : MonoBehaviour, IBreakable
         m_isBroken = true;
         m_visionCone.Deactivate();
         if(m_patrol != null) m_patrol.Pause();
+        AudioSource.PlayClipAtPoint(m_breakClip, transform.position, .5f);
+        m_stunEffect.SetActive(true);
         m_animator.CrossFade(Anim_Break, 0.2f, 0);
         Invoke("Recover", duration);
         return true;
@@ -111,6 +117,8 @@ public class Guard : MonoBehaviour, IBreakable
     {
         m_isBroken = false;
         m_visionCone.Activate();
+        AudioSource.PlayClipAtPoint(m_recoverClip, transform.position, .5f);
+        m_stunEffect.SetActive(false);
         m_body.DOLocalMove(m_lastBodyPosition, .2f).OnComplete(() =>
         {
             m_animator.enabled = true;

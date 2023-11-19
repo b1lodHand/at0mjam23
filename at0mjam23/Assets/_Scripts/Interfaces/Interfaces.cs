@@ -6,7 +6,7 @@ using UnityEngine;
 
 public interface IActivator
 {
-    
+    public bool IsActive();
 }
 
 public interface IInteractable

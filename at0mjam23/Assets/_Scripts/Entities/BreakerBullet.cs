@@ -6,6 +6,7 @@ public class BreakerBullet : MonoBehaviour
 {
     // Fields.
     [SerializeField] private Rigidbody2D m_rb;
+    [SerializeField] private AudioClip m_splash;
 
     // Private.
     private PlayerBreaker m_sender;
@@ -28,14 +29,13 @@ public class BreakerBullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!m_initialized) return;
+        AudioSource.PlayClipAtPoint(m_splash, transform.position, .5f);
 
         if (collision.TryGetComponent(out IBreakable breakable))
         {
             if (breakable.Break(m_breakDuration)) m_sender.BreakCallback(breakable);
             m_rb.isKinematic = true;
             m_rb.simulated = false;
-            Destroy(gameObject, m_breakDuration);
-            return;
         }
 
         Destroy(gameObject);

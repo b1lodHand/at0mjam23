@@ -8,11 +8,13 @@ public class PlayerMovement : MonoBehaviour
     // Fields.
     [SerializeField] private Rigidbody2D m_rb;
     [SerializeField] private OverlapCircleCheck m_groundCheck;
+    [SerializeField] private AudioSource m_movementAudioSource;
 
     [Header("Movement")]
     [SerializeField] private float m_moveSpeedGrounded;
     [SerializeField] private float m_moveSpeedInAir;
     [SerializeField] private float m_groundedDrag, m_inAirDrag;
+    [SerializeField] private bool m_isFacingRight = true;
 
     [Header("Jump")]
     [SerializeField] private float m_ascendingGravityScale;
@@ -31,14 +33,22 @@ public class PlayerMovement : MonoBehaviour
     bool m_isGrounded;
     bool m_jumpButtonPressed;
     bool m_hasContactWithMovingGround;
+    bool m_anyInput = false;
+    bool m_anyInputLastFrame = false;
 
     // Properties.
     private float m_moveSpeed => m_isGrounded ? m_moveSpeedGrounded : m_moveSpeedInAir;
     private bool m_isOnMovingGround => m_isGrounded && m_hasContactWithMovingGround;
-    public bool AnyInput => m_moveInput != 0f || m_jumpButtonPressed;
+    public bool AnyInput => m_anyInput;
 
     private void Update()
     {
+        m_anyInputLastFrame = m_anyInput;
+        m_anyInput = m_moveInput != 0f || m_jumpButtonPressed;
+
+        if ((!m_anyInputLastFrame) && m_anyInput) m_movementAudioSource.Play();
+        else if (m_anyInputLastFrame && !m_anyInput) m_movementAudioSource.Pause();
+
         m_isGroundedLastFrame = m_isGrounded;
         m_isGrounded = m_groundCheck.FoundAny;
 
@@ -48,6 +58,13 @@ public class PlayerMovement : MonoBehaviour
         else m_rb.gravityScale = m_groundedGravityScale;
 
         GetInput();
+        if ((m_moveInput < 0f && m_isFacingRight) || (m_moveInput > 0f && !m_isFacingRight))
+        {
+            m_isFacingRight = !m_isFacingRight;
+            var localScale = transform.localScale;
+            localScale.x *= -1;
+            transform.localScale = localScale;
+        }
     }
 
     private void FixedUpdate()
