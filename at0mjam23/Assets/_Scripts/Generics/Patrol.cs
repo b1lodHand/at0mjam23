@@ -4,12 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum PatrolType
+{
+    Rigidbody,
+    Transform
+}
+
 public class Patrol : MonoBehaviour, IPatrol
 {
     // Fields.
     [SerializeField] private Rigidbody2D m_rb;
     [SerializeField] private PatrolState m_state = PatrolState.NotActive;
     [SerializeField] private List<Spot> m_spots = new List<Spot>();
+    [SerializeField] private PatrolType m_type = PatrolType.Rigidbody;
     [SerializeField] private float m_moveSpeed = 10f;
     [SerializeField] private bool m_reverseOnEnd = true;
     [SerializeField] private bool m_stopWhileWaiting = false;
@@ -38,7 +45,7 @@ public class Patrol : MonoBehaviour, IPatrol
         switch (m_state)
         {
             case PatrolState.NotActive:
-                m_rb.velocity = Vector3.zero;
+                if(m_type == PatrolType.Rigidbody) m_rb.velocity = Vector3.zero;
                 break;
             case PatrolState.Moving:
                 Move();
@@ -69,7 +76,9 @@ public class Patrol : MonoBehaviour, IPatrol
         if (m_distaneToNextSpot <= .1f) { StartWaiting(); return; }
 
         var speedMultiplier = 10f;
-        m_rb.velocity = m_moveDirection * m_moveSpeed * speedMultiplier * Time.deltaTime;
+        if(m_type == PatrolType.Rigidbody) m_rb.velocity = m_moveDirection * m_moveSpeed * speedMultiplier * Time.deltaTime;
+        else if (m_type == PatrolType.Transform) transform.position = Vector2.MoveTowards(transform.position, m_nextSpot.SpotPosition.position,
+            m_moveSpeed * speedMultiplier * Time.deltaTime);
     }
 
     private void StartWaiting()

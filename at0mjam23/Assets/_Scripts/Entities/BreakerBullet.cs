@@ -29,7 +29,7 @@ public class BreakerBullet : MonoBehaviour
     {
         if (!m_initialized) return;
 
-        if (collision.transform.TryGetComponent(out IBreakable breakable))
+        if (collision.TryGetComponent(out IBreakable breakable))
         {
             if (breakable.Break(m_breakDuration)) m_sender.BreakCallback(breakable);
             m_rb.isKinematic = true;

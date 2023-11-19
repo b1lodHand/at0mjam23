@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerInteraction : MonoBehaviour
 {
     // Fields.
+    [SerializeField] private Player m_playerScript;
     [SerializeField] private OverlapCircleCheckerObstacleSensitive m_check;
     [SerializeField] private List<IInteractable> m_foundInteractables = new List<IInteractable>();
 
@@ -17,7 +18,7 @@ public class PlayerInteraction : MonoBehaviour
 
     void GetInput()
     {
-        if (Input.GetKeyDown(KeyCode.E) && m_foundInteractables.Count > 0) m_foundInteractables.FirstOrDefault().Interact(this);
+        if (Input.GetKeyDown(KeyCode.E) && m_foundInteractables.Count > 0) m_foundInteractables.FirstOrDefault().Interact(this, m_playerScript);
     }
 
     void SearchForInteractables()

@@ -6,8 +6,6 @@ using UnityEngine;
 public class PlayerBreaker : MonoBehaviour
 {
     // Fields.
-    [SerializeField] private LayerMask m_targetMask;
-    [SerializeField] private LayerMask m_obstacleMask;
     [SerializeField] private BreakerBullet m_bulletPrefab;
     [SerializeField] private Texture2D m_crosshair;
     [SerializeField] private float m_breakDuration;
@@ -23,6 +21,12 @@ public class PlayerBreaker : MonoBehaviour
 
     private void Start()
     {
+        if(PlayerPrefs.GetInt("breaker") == 1)
+        {
+            Activate();
+            return;
+        }
+
         Deactivate();
     }
 

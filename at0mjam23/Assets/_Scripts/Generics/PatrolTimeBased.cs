@@ -98,6 +98,7 @@ public class PatrolTimeBased : MonoBehaviour, IPatrol
 
     public void Deactivate()
     {
+        m_paused = false;
         m_state = PatrolState.NotActive;
     }
 
@@ -105,6 +106,7 @@ public class PatrolTimeBased : MonoBehaviour, IPatrol
     {
         m_paused = true;
         m_stateBeforePause = m_state;
+        m_state = PatrolState.NotActive;
     }
 
     public void Resume()

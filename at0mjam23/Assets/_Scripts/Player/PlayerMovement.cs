@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
     // Properties.
     private float m_moveSpeed => m_isGrounded ? m_moveSpeedGrounded : m_moveSpeedInAir;
     private bool m_isOnMovingGround => m_isGrounded && m_hasContactWithMovingGround;
-    private bool m_anyInput => m_moveInput != 0f || m_jumpButtonPressed;
+    public bool AnyInput => m_moveInput != 0f || m_jumpButtonPressed;
 
     private void Update()
     {

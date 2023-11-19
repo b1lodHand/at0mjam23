@@ -26,7 +26,14 @@ public class Observer : MonoBehaviour, IBreakable
     {
         if(m_visionCone.VisibleTargets.Count == 0) return;
 
-        var containsPlayer = m_visionCone.VisibleTargets.Any(t => t.TryGetComponent(out Player _));
+        var containsPlayer = m_visionCone.VisibleTargets.Any(t =>
+        {
+            if (!t.TryGetComponent(out Player player)) return false;
+            if (player.IsHidden) return false;
+
+            return true;
+        });
+
         var containsAnyBrokenGuard = m_visionCone.VisibleTargets.Any(t =>
         {
             if (!t.TryGetComponent(out IBreakable breakable)) return false;
