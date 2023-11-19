@@ -14,6 +14,11 @@ public class OverlapCircleCheck : MonoBehaviour
     public bool FoundAny => m_result.Count > 0;
     public List<Transform> Result => m_result;
 
+    private void Awake()
+    {
+        Check();
+    }
+
     private void FixedUpdate()
     {
         Check();

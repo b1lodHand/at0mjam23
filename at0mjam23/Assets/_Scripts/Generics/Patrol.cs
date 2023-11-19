@@ -19,7 +19,7 @@ public class Patrol : MonoBehaviour, IPatrol
     [SerializeField] private PatrolType m_type = PatrolType.Rigidbody;
     [SerializeField] private float m_moveSpeed = 10f;
     [SerializeField] private bool m_reverseOnEnd = true;
-    [SerializeField] private bool m_stopWhileWaiting = false;
+    [SerializeField] private bool m_stopWhileWaiting = true;
 
     // Private.
     private float m_currentTimeWaited = 0f;
@@ -45,7 +45,6 @@ public class Patrol : MonoBehaviour, IPatrol
         switch (m_state)
         {
             case PatrolState.NotActive:
-                if(m_type == PatrolType.Rigidbody) m_rb.velocity = Vector3.zero;
                 break;
             case PatrolState.Moving:
                 Move();
@@ -73,7 +72,7 @@ public class Patrol : MonoBehaviour, IPatrol
         if (m_paused) return;
 
         m_distaneToNextSpot = Vector2.Distance(m_nextSpot.SpotPosition.position, transform.position);
-        if (m_distaneToNextSpot <= .1f) { StartWaiting(); return; }
+        if (m_distaneToNextSpot <= .2f) { StartWaiting(); return; }
 
         var speedMultiplier = 10f;
         if(m_type == PatrolType.Rigidbody) m_rb.velocity = m_moveDirection * m_moveSpeed * speedMultiplier * Time.deltaTime;
@@ -84,7 +83,7 @@ public class Patrol : MonoBehaviour, IPatrol
     private void StartWaiting()
     {
         if(m_paused) return;
-        if(m_stopWhileWaiting) m_rb.velocity = Vector3.zero;
+        if(m_stopWhileWaiting && m_type == PatrolType.Rigidbody) m_rb.velocity = Vector3.zero;
 
         if (m_nextSpot.SpotDuration <= 0f) { StartMoving(); return; }
 
@@ -114,14 +113,37 @@ public class Patrol : MonoBehaviour, IPatrol
         m_state = PatrolState.Moving;
     }
 
-    public void Deactivate() => m_state = PatrolState.NotActive;
-    public void Activate() => StartMoving();
+    public void Deactivate()
+    {
+        m_paused = false;
+        m_state = PatrolState.NotActive;
+        m_rb.velocity = Vector3.zero;
+    }
+    public void Activate()
+    {
+        m_currentSpotIndex = -1;
+        StartMoving();
+    }
 
     public PatrolState GetState() => m_state;
 
     public void AppendOnWaitingEnds(Action actionWillBeAppended)
     {
         OnWaitingEnds += actionWillBeAppended;
+    }
+
+    public void Pause()
+    {
+        m_paused = true;
+        m_stateBeforePause = m_state;
+        m_state = PatrolState.NotActive;
+        m_rb.velocity = Vector3.zero;
+    }
+
+    public void Resume()
+    {
+        m_paused = false;
+        m_state = m_stateBeforePause;
     }
 
     private void OnDrawGizmos()
@@ -135,18 +157,6 @@ public class Patrol : MonoBehaviour, IPatrol
             if (i == m_spots.Count - 1) return;
             Gizmos.DrawLine(m_spots[i+1].SpotPosition.position, m_spots[i].SpotPosition.position);
         }
-    }
-
-    public void Pause()
-    {
-        m_paused = true;
-        m_stateBeforePause = m_state;
-    }
-
-    public void Resume()
-    {
-        m_paused = false;
-        m_state = m_stateBeforePause;
     }
 }
 

@@ -12,30 +12,50 @@ public class Guard : MonoBehaviour, IBreakable
 
     // Fields.
     [SerializeField] private VisionCone m_visionCone;
+    [SerializeField] private Rigidbody2D m_rb;
     [SerializeField] private OverlapCircleCheckerObstacleSensitive m_nearCheck;
     [SerializeField] private Animator m_animator;
     [SerializeField] private Transform m_body;
+    [SerializeField] private float m_distractedSpeed;
     [SerializeField] private bool m_isBroken = false;
+    [SerializeField] private bool m_isDistracted = false;
 
     // Private.
     private IPatrol m_patrol;
     private Vector3 m_lastBodyPosition;
+    private DistractorBehaviour m_distractor;
+    private bool m_isFacingRight = false;
 
     private void Start()
     {
-        m_patrol = GetComponent<IPatrol>();
-        if (m_patrol != null) m_patrol.AppendOnWaitingEnds(() =>
-        {
-            var localScale = transform.localScale;
-            localScale.x *= -1;
-            transform.localScale = localScale;
-        });
+        if (!TryGetComponent(out m_patrol)) m_patrol = null;
     }
 
     private void Update()
     {
+        // Flip logic.
+        if((m_rb.velocity.x < 0f && m_isFacingRight) || (m_rb.velocity.x > 0f && !m_isFacingRight))
+        {
+            m_isFacingRight = !m_isFacingRight;
+            var localScale = transform.localScale;
+            localScale.x *= -1;
+            transform.localScale = localScale;
+        }
+
         Search();
         CheckNear();
+
+        // Distraction logic.
+        if (!m_isDistracted) return;
+        if (Vector2.Distance(m_distractor.transform.position, transform.position) < 5f)
+        {
+            m_rb.velocity = new Vector2(0f, m_rb.velocity.y);
+            return;
+        }
+
+        var speedMultiplier = 10f;
+        m_rb.velocity = new Vector2((m_distractor.transform.position - transform.position).normalized.x
+            * m_distractedSpeed * speedMultiplier * Time.deltaTime, m_rb.velocity.y);
     }
 
     void Search()
@@ -103,6 +123,25 @@ public class Guard : MonoBehaviour, IBreakable
     {
         m_lastBodyPosition = m_body.localPosition;
         m_animator.enabled = false;
+    }
+
+    public bool StartDistractionBy(DistractorBehaviour source, float distractionDuration)
+    {
+        if (IsBroken() || source == null || m_isDistracted) return false;
+
+        m_isDistracted = true;
+        m_distractor = source;
+        if (m_patrol != null) m_patrol.Deactivate();
+
+        Invoke("ReleaseDistraction", distractionDuration);
+        return true;
+    }
+
+    void ReleaseDistraction()
+    {
+        m_isDistracted = false;
+        m_distractor = null;
+        if (m_patrol != null) m_patrol.Activate();
     }
 
     public Transform GetTransform() => transform;

@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GuardCollisionHandler : MonoBehaviour, IBreakable
+public class GuardCollisionHandler : MonoBehaviour, IBreakable, IActivator
 {
 
     [SerializeField] private Guard m_guardScript;
+    public bool StartDistractionBy(DistractorBehaviour source, float distractionDuration) =>
+        m_guardScript.StartDistractionBy(source, distractionDuration);
 
     public bool Break(float duration) => m_guardScript.Break(duration);
 

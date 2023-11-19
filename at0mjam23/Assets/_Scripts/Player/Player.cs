@@ -6,6 +6,7 @@ public class Player : MonoBehaviour, IActivator
 {
     // Fields.
     [SerializeField] private PlayerBreaker m_breaker;
+    [SerializeField] private PlayerHandle m_handle;
     [SerializeField] private PlayerMovement m_movement;
     [SerializeField] private Rigidbody2D m_rb;
     [SerializeField] private GameObject m_collision;
@@ -35,6 +36,8 @@ public class Player : MonoBehaviour, IActivator
         if(!m_breaker.Active) m_breaker.Activate();
     }
 
+    public bool HandleDistractor() => m_handle.HandleDistractor();
+
     public void Hide(CardboardBox hiddenInside)
     {
         if(hiddenInside == null) return;
@@ -46,6 +49,7 @@ public class Player : MonoBehaviour, IActivator
         m_rb.simulated = false;
         m_graphic.SetActive(false);
         m_collision.SetActive(false);
+        if (m_handle.HandlingDistractor) m_handle.DropDistractor();
 
         m_hideDelayCounter = 0f;
     }

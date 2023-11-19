@@ -12,6 +12,7 @@ public class PatrolTimeBased : MonoBehaviour, IPatrol
     [SerializeField] private float m_moveTime;
     [SerializeField] private float m_moveSpeed;
     [SerializeField] private Vector2 m_moveDirection;
+    [SerializeField] private bool m_stopWhileWaiting = true;
 
     // Private.
     private float m_currentTimeMoving;
@@ -32,7 +33,6 @@ public class PatrolTimeBased : MonoBehaviour, IPatrol
         switch (m_state)
         {
             case PatrolState.NotActive:
-                m_rb.velocity = Vector3.zero;
                 break;
             case PatrolState.Moving:
                 Move();
@@ -53,6 +53,8 @@ public class PatrolTimeBased : MonoBehaviour, IPatrol
 
     private void StartWaiting()
     {
+        if (m_stopWhileWaiting) m_rb.velocity = Vector3.zero;
+
         m_currentTimeWaiting = 0f;
         m_state = PatrolState.Waiting;
     }
@@ -100,6 +102,7 @@ public class PatrolTimeBased : MonoBehaviour, IPatrol
     {
         m_paused = false;
         m_state = PatrolState.NotActive;
+        m_rb.velocity = Vector3.zero;
     }
 
     public void Pause()
@@ -107,6 +110,7 @@ public class PatrolTimeBased : MonoBehaviour, IPatrol
         m_paused = true;
         m_stateBeforePause = m_state;
         m_state = PatrolState.NotActive;
+        m_rb.velocity = Vector3.zero;
     }
 
     public void Resume()

@@ -444,10 +444,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_visionCone: {fileID: 6656452942267435778}
+  m_rb: {fileID: 8994148858919706727}
   m_nearCheck: {fileID: 2214250312606264473}
   m_animator: {fileID: 5127126906236105035}
   m_body: {fileID: 2071559554856821208}
+  m_distractedSpeed: 200
   m_isBroken: 0
+  m_isDistracted: 0
 --- !u!50 &8994148858919706727
 Rigidbody2D:
   serializedVersion: 4
@@ -461,7 +464,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 15
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}

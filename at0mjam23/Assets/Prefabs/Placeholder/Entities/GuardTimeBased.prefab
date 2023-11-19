@@ -409,6 +409,7 @@ MonoBehaviour:
   m_moveTime: 3
   m_moveSpeed: 35
   m_moveDirection: {x: -1, y: 0}
+  m_stopWhileWaiting: 1
 --- !u!95 &5127126906236105035
 Animator:
   serializedVersion: 5
@@ -443,10 +444,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_visionCone: {fileID: 6656452942267435778}
+  m_rb: {fileID: 183528841195498618}
   m_nearCheck: {fileID: 5040973644917547502}
   m_animator: {fileID: 5127126906236105035}
   m_body: {fileID: 5896551596034996761}
+  m_distractedSpeed: 200
   m_isBroken: 0
+  m_isDistracted: 0
 --- !u!50 &183528841195498618
 Rigidbody2D:
   serializedVersion: 4
@@ -460,7 +464,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 15
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
